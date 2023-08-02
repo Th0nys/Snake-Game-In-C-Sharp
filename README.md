@@ -4,7 +4,7 @@ Snake2.0 is a classic snake game implemented in C# using Windows Presentation Fo
 
 ## Features
 
-- Intuitive controls: Use the arrow keys or W/A/S/D keys to control the snake.
+- Intuitive controls: Use the arrow keys to control the snake.
 - Customizable colors: Personalize the game's look with a variety of color options.
 - Increasing difficulty: As you grow longer, the game gets more challenging.
 - High score tracking: Compete with yourself to achieve the highest score.
