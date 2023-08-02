@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +12,7 @@ namespace Snake2._0
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Dictionary to map GridValue to corresponding ImageSource
         public readonly Dictionary<GridValue, ImageSource> gridValToImage = new()
         {
             { GridValue.Empty, Images.Empty },
@@ -19,6 +20,7 @@ namespace Snake2._0
             { GridValue.Food, Images.Food }
         };
 
+        // Dictionary to map Directions to rotation degrees for snake head
         private readonly Dictionary<Directions, int> dirToRotation = new()
         {
             { Directions.Up, 0 },
@@ -31,6 +33,7 @@ namespace Snake2._0
         private readonly Image[,] gridImages;
         private GameState gameState;
         private bool gameRunning;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +41,7 @@ namespace Snake2._0
             gameState = new GameState(rows, cols);
         }
 
+        // Method to run the game
         private async Task Rungame()
         {
             Draw();
@@ -48,6 +52,7 @@ namespace Snake2._0
             gameState = new GameState(rows, cols);
         }
 
+        // Event handler for previewing key down events
         private async void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (Overlay.Visibility == Visibility.Visible)
@@ -63,6 +68,7 @@ namespace Snake2._0
             }
         }
 
+        // Event handler for key down events
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (gameState.GameOver)
@@ -70,19 +76,21 @@ namespace Snake2._0
                 return;
             }
 
-            switch(e.Key)
+            // Change the snake's direction based on the pressed key
+            switch (e.Key)
             {
                 case System.Windows.Input.Key.Left:
-                    gameState.Changedirection(Directions.Left); break;
+                    gameState.ChangeDirection(Directions.Left); break;
                 case System.Windows.Input.Key.Right:
-                    gameState.Changedirection(Directions.Right); break;
+                    gameState.ChangeDirection(Directions.Right); break;
                 case System.Windows.Input.Key.Up:
-                    gameState.Changedirection(Directions.Up); break;
+                    gameState.ChangeDirection(Directions.Up); break;
                 case System.Windows.Input.Key.Down:
-                    gameState.Changedirection(Directions.Down); break;
+                    gameState.ChangeDirection(Directions.Down); break;
             }
         }
 
+        // Method for the main game loop
         private async Task GameLoop()
         {
             while (!gameState.GameOver)
@@ -93,6 +101,7 @@ namespace Snake2._0
             }
         }
 
+        // Method to set up the game grid with images
         private Image[,] SetupGrid()
         {
             Image[,] images = new Image[rows, cols];
@@ -114,6 +123,7 @@ namespace Snake2._0
             return images;
         }
 
+        // Method to update the game grid with current state
         private void Draw()
         {
             DrawGrid();
@@ -121,11 +131,12 @@ namespace Snake2._0
             ScoreText.Text = $"SCORE {gameState.Score}";
         }
 
+        // Method to draw the grid with corresponding grid values
         private void DrawGrid()
         {
             for (int r = 0; r < rows; r++)
             {
-                for (int c = 0;c < cols; c++)
+                for (int c = 0; c < cols; c++)
                 {
                     GridValue gridVal = gameState.Grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
@@ -134,6 +145,7 @@ namespace Snake2._0
             }
         }
 
+        // Method to draw the snake's head with appropriate rotation
         private void DrawSnakeHead()
         {
             Positions headPos = gameState.HeadPosition();
@@ -144,6 +156,7 @@ namespace Snake2._0
             image.RenderTransform = new RotateTransform(rotation);
         }
 
+        // Method to draw the snake's body when the game is over
         private async Task DrawDeadSnake()
         {
             List<Positions> positions = new List<Positions>(gameState.SnakePositions());
@@ -157,6 +170,7 @@ namespace Snake2._0
             }
         }
 
+        // Method to show the countdown before starting the game
         private async Task ShowCountDown()
         {
             for (int i = 3; i >= 1; i--)
@@ -166,6 +180,7 @@ namespace Snake2._0
             }
         }
 
+        // Method to show the "Game Over" overlay and draw the dead snake
         private async Task ShowGameOver()
         {
             await DrawDeadSnake();
