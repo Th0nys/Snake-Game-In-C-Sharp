@@ -25,7 +25,7 @@ To run the game locally, follow these steps:
 
 ## How to Play
 
-1. Use the arrow keys or W/A/S/D keys to control the snake's direction.
+1. Use the arrow keys to control the snake's direction.
 2. Guide the snake to eat the fruits to grow longer.
 3. Avoid running into the walls or colliding with the snake's body.
 4. The game ends when the snake hits a wall or itself.
